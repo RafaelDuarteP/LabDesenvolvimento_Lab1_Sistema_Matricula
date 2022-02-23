@@ -1,7 +1,0 @@
-Como um aluno eu gostaria de matricular em disciplinas para a faculdade
-
-Como um aluno eu quero cancelar disciplinas para a faculdade
-
-Como um professor eu quero acessar o sistema da universidade para saber quais são os alunos que estão matriculados em cada disciplina.
-
-Como um secretario eu quero gerar um curriculo por semestre para manter as informações sobre as disciplinas, professores e alunos.
