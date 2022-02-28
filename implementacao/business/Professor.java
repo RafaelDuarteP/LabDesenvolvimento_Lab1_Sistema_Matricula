@@ -3,13 +3,16 @@ package business;
 import java.util.List;
 
 public class Professor extends Usuario {
-	public Professor(String nome, int id, String senha) {
-		super(nome, id, senha);
+	public Professor(String nome, String senha) {
+		super(nome, senha);
 	}
 
 	private List<Disciplina> disciplinas;
 
-	public void consultar(Disciplina dis) {
+	public List<Aluno> consultar(Disciplina dis, String semestre) {
+
+		Oferta o = dis.procurarOferta(semestre);
+		return o.getAlunos();
 
 	}
 
