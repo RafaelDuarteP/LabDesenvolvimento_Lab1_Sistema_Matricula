@@ -4,10 +4,12 @@ import java.util.List;
 
 public class Aluno extends Usuario{
     private int numeroDeMatricula;
+    private static int proxMatricula = 0;
     private List<Disciplina> disciplinas;
 
-    public Aluno(String nome, int id, String senha, int nMatricula) {
-        super(nome, id, senha);
-        this.numeroDeMatricula = nMatricula;
+    public Aluno(String nome, String senha) {
+        super(nome, senha, TipoUsuario.ALUNO);
+        this.numeroDeMatricula = proxMatricula;
+        proxMatricula++;
     }
 }
