@@ -6,8 +6,8 @@ public class Aluno extends Usuario{
     private int numeroDeMatricula;
     private List<Disciplina> disciplinas;
 
-    public Aluno(String nome, int id, String senha, int nMatricula) {
-        super(nome, id, senha);
+    public Aluno(String nome, String senha, int nMatricula) {
+        super(nome, senha);
         this.numeroDeMatricula = nMatricula;
     }
 }

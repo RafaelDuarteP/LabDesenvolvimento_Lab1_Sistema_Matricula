@@ -1,39 +1,45 @@
 package business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Disciplina {
 
-	private static final int MAX_ALUNOS;
-
-	static {
-		MAX_ALUNOS = 60;
-	}
-
+	
+	private String nome;
 	private boolean obtigatoria;
-	private boolean ativa;
-	private List<Aluno> matriculadosAlunos;
-	private List<Professor> professores;
+	private List<Oferta> ofertas;
 
-	public Disciplina(boolean obtigatoria, boolean ativa) {
+	public Disciplina(boolean obtigatoria, String nome) {
 		this.obtigatoria = obtigatoria;
-		this.ativa = ativa;
+		this.nome = nome;
+		this.ofertas = new ArrayList<>();
 	}
 
-	public boolean validarAtivacao() {
-		return true;
+	public Oferta procurarOferta(String semestre) {
+		for (Oferta o : ofertas) {
+			if (o.getSemestre().equalsIgnoreCase(semestre))
+				return o;
+		}
+		return null;
+	}
+	
+	public void novaOferta(String semestre) {
+		Oferta o = new Oferta(true, this, semestre);
+		ofertas.add(o);
+	}
+	
+	public boolean isObrigatoria() {
+		return this.obtigatoria;
 	}
 
-	public boolean podeMatricular() {
-		return true;
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public Oferta getUltimaOferta(){
+		return ofertas.get(ofertas.size()-1);
 	}
 
-	public boolean matricular() {
-		return true;
-	}
-
-	public void cancelar() {
-
-	}
 
 }

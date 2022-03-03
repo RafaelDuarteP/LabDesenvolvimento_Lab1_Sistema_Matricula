@@ -1,8 +1,8 @@
 package business;
 
 public class Secretario extends Usuario{
-    public Secretario(String nome, int id, String senha) {
-        super(nome, id, senha);
+    public Secretario(String nome, String senha) {
+        super(nome, senha);
     }
 
     public void adicionarUsuario(){

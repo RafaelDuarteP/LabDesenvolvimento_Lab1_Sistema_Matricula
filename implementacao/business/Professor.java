@@ -7,8 +7,6 @@ public class Professor extends Usuario {
 		super(nome, senha);
 	}
 
-	private List<Disciplina> disciplinas;
-
 	public List<Aluno> consultar(Disciplina dis, String semestre) {
 
 		Oferta o = dis.procurarOferta(semestre);
