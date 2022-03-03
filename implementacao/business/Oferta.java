@@ -1,9 +1,11 @@
 package business;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Oferta {
+public class Oferta implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private static final int MAX_ALUNOS;
 
 	static {
@@ -60,7 +62,7 @@ public class Oferta {
 	public void cancelarMatricula(Aluno a) {
 		alunos.remove(a);
 	}
-	
+
 	public void addProfessor(Professor p) {
 		professores.add(p);
 	}

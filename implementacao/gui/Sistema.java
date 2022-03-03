@@ -1,6 +1,6 @@
 package gui;
 
-import java.util.Iterator;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,37 +8,54 @@ import business.Aluno;
 import business.Disciplina;
 import business.Professor;
 import business.Secretario;
+import business.TipoUsuario;
 import business.Usuario;
+import dados.Arquivo;
 
 public class Sistema {
 
 	static List<Usuario> usuarios;
 	static List<Disciplina> disciplinas;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		Arquivo<Usuario> arqUser;
+		Arquivo<Disciplina> arqDisc;
+		arqUser = new Arquivo<>("usuarios.dat");
+		arqDisc = new Arquivo<>("disciplinas.dat");
+
+		usuarios = arqUser.recuperarDados();
+		disciplinas = arqDisc.recuperarDados();
+
 		Scanner teclado = new Scanner(System.in);
 		Usuario user = login(teclado);
 		int op;
 
 		op = menu(teclado, user);
-		switch (op) {
-		case 1:
-			matricular(teclado, user);
-			break;
-		case 2:
-			cancelarMatricula(teclado, user);
-			break;
-		case 3:
-			consultarDisciplinas(teclado, user);
-			break;
-		case 4:
-			cadastrarUsuario(teclado);
-			break;
-		case 5:
-			cadastrarDisciplina(teclado);
-			break;
-		default:
-			break;
+		while (op != 0) {
+
+			switch (op) {
+			case 1:
+				matricular(teclado, user);
+				break;
+			case 2:
+				cancelarMatricula(teclado, user);
+				break;
+			case 3:
+				consultarDisciplinas(teclado, user);
+				break;
+			case 4:
+				cadastrarUsuario(teclado);
+				break;
+			case 5:
+				cadastrarDisciplina(teclado);
+				break;
+			case 0:
+				arqDisc.salvar(disciplinas);
+				arqUser.salvar(usuarios);
+			default:
+				break;
+			}
+			op = menu(teclado, user);
 		}
 
 	}
@@ -63,11 +80,17 @@ public class Sistema {
 
 	public static int menu(Scanner teclado, Usuario user) {
 		System.out.println("Escolha uma opção:");
-		System.out.println("1 - Matricular");
-		System.out.println("2 - Cancelar Matricula");
-		System.out.println("3 - Consultar Disciplina");
-		System.out.println("4 - Cadastrar novo usuário");
-		System.out.println("5 - Cadastrar nova Disciplina");
+		if (user.getNivelAcesso().equals(TipoUsuario.ALUNO)) {
+			System.out.println("1 - Matricular");
+			System.out.println("2 - Cancelar Matricula");
+		} else if (user.getNivelAcesso().equals(TipoUsuario.PROFESSOR)) {
+			System.out.println("3 - Consultar Disciplina");
+		} else if (user.getNivelAcesso().equals(TipoUsuario.SECRETARIO)) {
+
+			System.out.println("4 - Cadastrar novo usuário");
+			System.out.println("5 - Cadastrar nova Disciplina");
+		}
+		System.out.println("0 - sair");
 
 		return Integer.parseInt(teclado.nextLine());
 	}
@@ -137,20 +160,18 @@ public class Sistema {
 		senha = teclado.nextLine();
 
 		switch (op) {
-		case 1: {
-			System.out.println("Digite o numero de matricula:");
-			mat = Integer.parseInt(teclado.nextLine());
-			u = new Aluno(nome, senha, mat);
-		}
-		case 2: {
+		case 1:
+			u = new Aluno(nome, senha);
+			break;
+		case 2:
 			u = new Professor(nome, senha);
-		}
-		case 3: {
+			break;
+		case 3:
 			u = new Secretario(nome, senha);
-		}
-		default: {
+			break;
+		default:
 			u = null;
-		}
+			break;
 		}
 
 		usuarios.add(u);

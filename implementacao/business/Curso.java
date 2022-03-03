@@ -1,9 +1,11 @@
 package business;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Curso {
+public class Curso implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String nome;
 	private int creditos;
@@ -16,11 +18,11 @@ public class Curso {
 		this.disciplinas = new ArrayList<>();
 		this.usuarios = new ArrayList<>();
 	}
-	
+
 	public void addDisciplina(Disciplina d) {
-		disciplinas.add(d);		
+		disciplinas.add(d);
 	}
-	
+
 	public void addUsuario(Usuario e) {
 		usuarios.add(e);
 	}

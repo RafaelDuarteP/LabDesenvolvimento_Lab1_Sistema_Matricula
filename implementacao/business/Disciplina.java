@@ -1,11 +1,13 @@
 package business;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disciplina {
+public class Disciplina implements Serializable {
 
-	
+	private static final long serialVersionUID = 1L;
+
 	private String nome;
 	private boolean obtigatoria;
 	private List<Oferta> ofertas;
@@ -23,12 +25,12 @@ public class Disciplina {
 		}
 		return null;
 	}
-	
+
 	public void novaOferta(String semestre) {
 		Oferta o = new Oferta(true, this, semestre);
 		ofertas.add(o);
 	}
-	
+
 	public boolean isObrigatoria() {
 		return this.obtigatoria;
 	}
@@ -36,10 +38,9 @@ public class Disciplina {
 	public String getNome() {
 		return this.nome;
 	}
-	
-	public Oferta getUltimaOferta(){
-		return ofertas.get(ofertas.size()-1);
-	}
 
+	public Oferta getUltimaOferta() {
+		return ofertas.get(ofertas.size() - 1);
+	}
 
 }
