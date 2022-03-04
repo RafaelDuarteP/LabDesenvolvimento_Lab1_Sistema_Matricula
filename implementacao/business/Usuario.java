@@ -8,15 +8,21 @@ public class Usuario implements Serializable {
 
 	private String nome;
 	private int id;
-	public static int proximoId = 0;
+	private static int proximoId = 0;
 	private String senha;
+	@SuppressWarnings("unused")
 	private List<Curso> cursos;
 	private TipoUsuario nivelAcesso;
+	
+	public static void setUltId(int n) {
+		Usuario.proximoId = n;
+	}
 
 	public Usuario(String nome, String senha, TipoUsuario nivelAcesso) {
 		this.nome = nome;
 		this.senha = senha;
-		this.id = Usuario.proximoId++;
+		this.nivelAcesso = nivelAcesso;
+		this.id = ++Usuario.proximoId;
 	}
 
 	public boolean logar(String senha) {

@@ -1,6 +1,7 @@
 package business;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Oferta implements Serializable {
@@ -22,6 +23,8 @@ public class Oferta implements Serializable {
 		this.ativa = ativa;
 		this.disciplina = disciplina;
 		this.semestre = semestre;
+		this.alunos = new ArrayList<>();
+		this.professores = new ArrayList<>();
 	}
 
 	public String getSemestre() {

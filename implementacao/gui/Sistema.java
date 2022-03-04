@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,13 +23,31 @@ public class Sistema {
 		Arquivo<Disciplina> arqDisc;
 		arqUser = new Arquivo<>("usuarios.dat");
 		arqDisc = new Arquivo<>("disciplinas.dat");
+//
+//		 usuarios = new ArrayList<>();
+//		 disciplinas = new ArrayList<>();
 
 		usuarios = arqUser.recuperarDados();
 		disciplinas = arqDisc.recuperarDados();
+		
+		Usuario.setUltId(usuarios.size());
+
+//		usuarios.add(new Secretario("Rafael", "1234"));
+//		usuarios.add(new Secretario("Ian", "1234"));
+//		usuarios.add(new Secretario("Kleyann", "1234"));
+//		arqDisc.salvar(disciplinas);
+//		arqUser.salvar(usuarios);
 
 		Scanner teclado = new Scanner(System.in);
 		Usuario user = login(teclado);
 		int op;
+
+		// System.out.println(usuarios.size());
+//		for (Usuario a : usuarios) {
+//			System.out.println(a.getNome() + " " + a.getId());
+//		}
+		
+		System.out.printf("\n\nSeja bem-vindo(a) %s %s\n\n", user.getNivelAcesso(), user.getNome());
 
 		op = menu(teclado, user);
 		while (op != 0) {
@@ -49,33 +68,48 @@ public class Sistema {
 			case 5:
 				cadastrarDisciplina(teclado);
 				break;
-			case 0:
-				arqDisc.salvar(disciplinas);
-				arqUser.salvar(usuarios);
+			case 6:
+				cadastrarOferta(teclado);
+				break;
 			default:
 				break;
 			}
 			op = menu(teclado, user);
 		}
 
+		arqDisc.salvar(disciplinas);
+		arqUser.salvar(usuarios);
+
 	}
 
 	public static Usuario login(Scanner teclado) {
 		int id;
+		Usuario user = null;
 		String senha;
-		System.out.println("Digite o id:");
-		id = Integer.parseInt(teclado.nextLine());
-		System.out.println("Digite a senha:");
-		senha = teclado.nextLine();
 
-		for (Usuario u : usuarios) {
-			if (u.getId() == id)
-				if (u.logar(senha)) {
-					return u;
+		while (user == null) {
+			senha = null;
+			System.out.println("Digite o id:");
+			id = Integer.parseInt(teclado.nextLine());
+
+			for (Usuario u : usuarios) {
+				if (u.getId() == id) {
+					System.out.println("Digite a senha:");
+					senha = teclado.nextLine();
+					if (u.logar(senha)) {
+						user = u;
+						break;
+					} else {
+						System.out.println("Senha incorreta");
+					}
 				}
+			}
+			if (senha == null) {
+				System.out.println("Usuario não encontrado");
+			}
 		}
 
-		return null;
+		return user;
 	}
 
 	public static int menu(Scanner teclado, Usuario user) {
@@ -89,6 +123,7 @@ public class Sistema {
 
 			System.out.println("4 - Cadastrar novo usuário");
 			System.out.println("5 - Cadastrar nova Disciplina");
+			System.out.println("6 - Cadastrar nova oferta");
 		}
 		System.out.println("0 - sair");
 
@@ -175,6 +210,8 @@ public class Sistema {
 		}
 
 		usuarios.add(u);
+		System.out.println("Dados do novo usuario:");
+		System.out.printf("\t id: %d, nome: %s, senha: %s\n\n", u.getId(), u.getNome(), u.getSenha());
 
 	}
 
@@ -187,6 +224,22 @@ public class Sistema {
 		obrigatoria = Integer.parseInt(teclado.nextLine());
 
 		disciplinas.add(new Disciplina(obrigatoria == 1, nome));
+	}
+	
+	public static void cadastrarOferta(Scanner teclado) {
+		int op;
+		String semestre;
+		System.out.println("Escolha a disciplina:");
+		for (int i = 0; i < disciplinas.size(); i++) {
+			System.out.printf("%d - %s \n", i, disciplinas.get(i).getNome());
+		}
+
+		op = Integer.parseInt(teclado.nextLine());
+
+		System.out.println("Digite o semestre:");
+		semestre = teclado.nextLine();
+		
+		disciplinas.get(op).novaOferta(semestre);
 	}
 
 }
