@@ -55,6 +55,7 @@ public class Oferta implements Serializable {
 	public boolean matricular(Aluno a) {
 		if (podeMatricular()) {
 			alunos.add(a);
+			a.addDisciplina(disciplina);
 			return true;
 		}
 
